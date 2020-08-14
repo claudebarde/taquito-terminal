@@ -40,6 +40,7 @@ export default {
             ? [
                 Actions.Transfer,
                 Actions.TokenFaucet,
+                Actions.TokenFaucetTransfer,
                 Actions.InteractWithContract,
                 Actions.Exit
               ]
@@ -98,7 +99,7 @@ export default {
       {
         name: "selectTokenFaucet",
         type: "list",
-        message: "What kind of token do you want to get?",
+        message: "Specify the type of token:",
         choices: [
           TokenFaucetType.FA12,
           TokenFaucetType.FA2_FT,
@@ -106,7 +107,7 @@ export default {
         ]
       }
     ] as Question[]),
-  inputFaucetTransfer: tokenType =>
+  inputFaucetMinting: tokenType =>
     inquirer.prompt([
       {
         name: "inputAddress",
@@ -151,6 +152,53 @@ export default {
         name: "confirmTx",
         type: "confirm",
         message: "Are you sure you want to proceed with this request?"
+      }
+    ]),
+  inputFaucetTransfer: tokenType =>
+    inquirer.prompt([
+      {
+        name: "recipient",
+        type: "input",
+        message:
+          'Address to send the tokens to (type "own" for signer\'s address):',
+        validate: value => {
+          if (validateAddress(value) === 3 || value === "own") {
+            return true;
+          } else {
+            return "Please input a valid address.";
+          }
+        }
+      },
+      {
+        name: "inputAmount",
+        type: "input",
+        message: "Amount of tokens to transfer:",
+        validate: value => {
+          if (!isNaN(value)) {
+            if (tokenType === "fungible") {
+              if (value > 0 && value <= 100) {
+                return true;
+              } else {
+                return "Maximum amount for fungible tokens is 100";
+              }
+            } else if (tokenType === "non-fungible") {
+              if (value > 0 && value <= 10) {
+                return true;
+              } else {
+                return "Maximum amount for non fungible tokens is 10";
+              }
+            } else {
+              return "Please input a valid amount";
+            }
+          } else {
+            return "Please input a valid amount.";
+          }
+        }
+      },
+      {
+        name: "confirmTx",
+        type: "confirm",
+        message: "Are you sure you want to proceed with this transfer?"
       }
     ])
 };

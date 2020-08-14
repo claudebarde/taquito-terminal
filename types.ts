@@ -16,6 +16,7 @@ export enum SigningMethods {
 export enum Actions {
   Transfer = "Transfer tezzies",
   TokenFaucet = "Request tokens from the token faucet",
+  TokenFaucetTransfer = "Transfer your faucet tokens to another address",
   InteractWithContract = "Interact with a contract",
   Exit = "Exit"
 }
