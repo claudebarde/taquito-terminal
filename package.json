@@ -1,0 +1,26 @@
+{
+  "name": "command-line-signer",
+  "version": "1.0.0",
+  "description": "A command line tool based on Taquito to send transactions on Tezos",
+  "main": "index.ts",
+  "scripts": {
+    "start": "tsc && node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "tsc"
+  },
+  "author": "Claude Barde",
+  "license": "MIT",
+  "dependencies": {
+    "@ledgerhq/hw-transport-node-hid": "^5.22.0",
+    "@taquito/ledger-signer": "^6.4.0-ledger.0",
+    "@taquito/signer": "^6.3.5-beta.0",
+    "@taquito/taquito": "^6.3.5-beta.0",
+    "chalk": "^4.1.0",
+    "clear": "^0.1.0",
+    "figlet": "^1.5.0",
+    "inquirer": "^7.3.3",
+    "ora": "^5.0.0",
+    "terminal-link": "^2.1.1",
+    "typescript": "^3.9.7"
+  }
+}
