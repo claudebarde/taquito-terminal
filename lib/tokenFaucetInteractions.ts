@@ -14,28 +14,6 @@ export default async ({
   network
 }) => {
   const { selectTokenFaucet } = await inquirer.selectTokenFaucet();
-  /*if (selectTokenFaucet === TokenFaucetType.FA12) {
-    // FA1.2
-    const loadingBalance = ora({
-      text: "Searching for your FA1.2 fungible token balance",
-      color: "cyan"
-    }).start();
-    // creates instance of contract
-    const contract = await Tezos.contract.at(tokenFaucets.FA12);
-    // creates storage
-    const storage: any = await contract.storage();
-    // gets user's token balance
-    const balance = await storage.ledger.get(publicKeyHash);
-    if (balance) {
-      loadingBalance.info(
-        `Your token balance: ${chalk.bold(balance.toNumber() + " tokens")}`
-      );
-    } else {
-      loadingBalance.info("No balance");
-    }
-
-
-  } else*/
 
   if (
     selectTokenFaucet === TokenFaucetType.FA12 ||

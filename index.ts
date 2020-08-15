@@ -5,10 +5,11 @@ import ora from "ora";
 import terminalLink from "terminal-link";
 
 import inquirer from "./inquirer/inquirer";
-import { SigningMethods, Actions, TokenFaucetType } from "./types";
+import { SigningMethods, Actions } from "./types";
 import setupSigner from "./lib/setupSigner";
 import tokenFaucetInteractions from "./lib/tokenFaucetInteractions";
-import { tokenFaucets } from "./utils";
+import interactWithContract from "./lib/interactWithContract";
+import getContractInfo from "./lib/getContractInfo";
 
 (async () => {
   // setup
@@ -99,6 +100,26 @@ import { tokenFaucets } from "./utils";
           Tezos,
           publicKeyHash,
           selectAction,
+          signingMethod,
+          network
+        });
+      } else if (selectAction === Actions.ContractInfo) {
+        /*
+         * INTERACTION WITH SMART CONTRACT
+         */
+        await getContractInfo({
+          Tezos,
+          publicKeyHash,
+          signingMethod,
+          network
+        });
+      } else if (selectAction === Actions.InteractWithContract) {
+        /*
+         * INTERACTION WITH SMART CONTRACT
+         */
+        await interactWithContract({
+          Tezos,
+          publicKeyHash,
           signingMethod,
           network
         });

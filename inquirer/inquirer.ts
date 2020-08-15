@@ -41,10 +41,16 @@ export default {
                 Actions.Transfer,
                 Actions.TokenFaucet,
                 Actions.TokenFaucetTransfer,
+                Actions.ContractInfo,
                 Actions.InteractWithContract,
                 Actions.Exit
               ]
-            : [Actions.Transfer, Actions.InteractWithContract, Actions.Exit]
+            : [
+                Actions.Transfer,
+                Actions.ContractInfo,
+                Actions.InteractWithContract,
+                Actions.Exit
+              ]
       }
     ] as Question[]),
   inputPrivateKey: () =>
@@ -78,7 +84,7 @@ export default {
       },
       {
         name: "inputAmount",
-        type: "input",
+        type: "number",
         message: "Please input the amount:",
         validate: value => {
           if (!isNaN(value)) {
@@ -124,7 +130,7 @@ export default {
       },
       {
         name: "inputAmount",
-        type: "input",
+        type: "number",
         message: "Amount of tokens requested:",
         validate: value => {
           if (!isNaN(value)) {
@@ -171,7 +177,7 @@ export default {
       },
       {
         name: "inputAmount",
-        type: "input",
+        type: "number",
         message: "Amount of tokens to transfer:",
         validate: value => {
           if (!isNaN(value)) {
@@ -200,5 +206,20 @@ export default {
         type: "confirm",
         message: "Are you sure you want to proceed with this transfer?"
       }
-    ])
+    ]),
+  inputContractAddress: () =>
+    inquirer.prompt([
+      {
+        name: "inputContractAddress",
+        type: "input",
+        message: "Please input the address of the contract:",
+        validate: value => {
+          if (validateAddress(value) === 3 && value.slice(0, 2) === "KT") {
+            return true;
+          } else {
+            return "Please input a valid contract address.";
+          }
+        }
+      }
+    ] as Question[])
 };
