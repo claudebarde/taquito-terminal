@@ -1,5 +1,9 @@
-import { Tezos } from "@taquito/taquito";
-import { LedgerSigner, DerivationType } from "@taquito/ledger-signer";
+import { TezosToolkit } from "@taquito/taquito";
+import {
+  LedgerSigner,
+  HDPathTemplate,
+  DerivationType
+} from "@taquito/ledger-signer";
 import TransportNodeHid from "@ledgerhq/hw-transport-node-hid";
 import { InMemorySigner } from "@taquito/signer";
 import chalk from "chalk";
@@ -8,14 +12,14 @@ import inquirer from "../inquirer/inquirer";
 import { SigningMethods, Networks, RPC } from "../types";
 
 export default async () => {
-  let network, publicKeyHash;
+  let network, publicKeyHash, Tezos;
 
   const { selectNetwork } = await inquirer.selectNetwork();
   if (selectNetwork === Networks.Main) {
-    Tezos.setRpcProvider(RPC.Main);
+    Tezos = new TezosToolkit(RPC.Main);
     network = Networks.Main.toLowerCase();
   } else if (selectNetwork === Networks.Test) {
-    Tezos.setRpcProvider(RPC.Test);
+    Tezos = new TezosToolkit(RPC.Test);
     network = Networks.Test.toLowerCase();
   }
 
@@ -28,9 +32,9 @@ export default async () => {
       const transport = await TransportNodeHid.create();
       const ledgerSigner = new LedgerSigner(
         transport,
-        "44'/1729'/0'/0'",
+        HDPathTemplate(0),
         true,
-        DerivationType.tz1
+        DerivationType.ED25519
       );
 
       Tezos.setSignerProvider(ledgerSigner);
